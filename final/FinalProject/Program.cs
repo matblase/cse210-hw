@@ -4,7 +4,6 @@ namespace FinalProject
 {
     class Program
     {
-        
         static RangerProfile LoginScreen()
         {
             Console.WriteLine("\n==============================================");
@@ -32,15 +31,14 @@ namespace FinalProject
             SafetyAlertSystem alertSystem = new SafetyAlertSystem();
             Trail activeTrail = new Trail("Pine Crest Loop", 4.5, "Moderate");
 
-            // Prompt user to log in at system launch
             RangerProfile activeRanger = LoginScreen();
 
             bool running = true;
             while (running)
             {
-                Console.WriteLine("----------------------------------------------");
+                Console.WriteLine("\n----------------------------------------------");
                 Console.WriteLine($" Active Ranger: {activeRanger.Name} (Badge #{activeRanger.BadgeNumber})");
-                Console.WriteLine($" Active Trail:  {activeTrail.Name}");
+                Console.WriteLine($" Active Trail:  {activeTrail.GetTrailInfo()}");
                 Console.WriteLine("----------------------------------------------");
                 Console.WriteLine("1. Add Botanical Record");
                 Console.WriteLine("2. Add Wildlife Sighting");
@@ -61,20 +59,26 @@ namespace FinalProject
                         Console.Write("Enter Plant/Tree Species: ");
                         string species = Console.ReadLine();
                         
-                        db.AddSighting(new BotanicalRecord(botMarker, DateTime.Now.ToShortTimeString(), activeRanger.BadgeNumber, species, false, "Healthy"));
+                        Console.Write("Is this species invasive? (yes/no): ");
+                        bool isInvasive = Console.ReadLine().Trim().ToLower().StartsWith("y");
+
+                        Console.Write("Enter Health Status (for example, Healthy, Diseased, Wilting): ");
+                        string health = Console.ReadLine();
+
+                        db.AddSighting(new BotanicalRecord(botMarker, DateTime.Now.ToShortTimeString(), activeRanger.BadgeNumber, species, isInvasive, health));
                         Console.WriteLine("Botanical record saved!");
                         break;
 
                     case "2":
-                        Console.Write("Enter Trail Marker (for example., Marker 12): ");
+                        Console.Write("Enter Trail Marker (for example, Marker 12): ");
                         string wildMarker = Console.ReadLine();
                         
                         Console.Write("Enter Animal Species (for example, Bear, Deer, Elk): ");
                         string animal = Console.ReadLine();
 
                         Console.Write("Enter Animal Count: ");
-                        int count = 1;
-                        int.TryParse(Console.ReadLine(), out count);
+                        int.TryParse(Console.ReadLine(), out int count);
+                        if (count <= 0) count = 1;
 
                         Console.WriteLine("Select Observed Condition:");
                         Console.WriteLine(" 1. Normal / Healthy");
@@ -87,7 +91,7 @@ namespace FinalProject
                         {
                             "2" => "Sick/Injured",
                             "3" => "Aggressive",
-                            _ => "Normal"
+                            _ => "Normal/Healthy"
                         };
 
                         db.AddSighting(new WildlifeSighting(wildMarker, DateTime.Now.ToShortTimeString(), activeRanger.BadgeNumber, animal, count, condition));
@@ -97,11 +101,17 @@ namespace FinalProject
                     case "3":
                         Console.Write("Enter Trail Marker (for example, Trailhead): ");
                         string wxMarker = Console.ReadLine();
-                        Console.Write("Is there a severe hazard? (yes/no): ");
-                        string hazardInput = Console.ReadLine().ToLower();
-                        bool isHazard = hazardInput == "yes" || hazardInput == "y";
 
-                        db.AddSighting(new WeatherLog(wxMarker, DateTime.Now.ToShortTimeString(), activeRanger.BadgeNumber, "Heavy Rain / Washout", 45.0, isHazard));
+                        Console.Write("Enter Weather Condition (for example, Sunny, Fog, Flash Flood): ");
+                        string wxCondition = Console.ReadLine();
+
+                        Console.Write("Enter Temperature (°F): ");
+                        double.TryParse(Console.ReadLine(), out double tempF);
+
+                        Console.Write("Is there an active safety hazard? (yes/no): ");
+                        bool isHazard = Console.ReadLine().Trim().ToLower().StartsWith("y");
+
+                        db.AddSighting(new WeatherLog(wxMarker, DateTime.Now.ToShortTimeString(), activeRanger.BadgeNumber, wxCondition, tempF, isHazard));
                         Console.WriteLine("Weather log saved!");
                         break;
 

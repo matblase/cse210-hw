@@ -17,13 +17,14 @@ namespace FinalProject
 
         public override int EvaluateHazardLevel()
         {
+            // Invasive plants flag environmental hazards for park management
             return _isInvasive ? 2 : 1;
         }
 
         public override string GetSummary()
         {
-            string status = _isInvasive ? "Invasive" : "Native";
-            return $"[BOTANICAL] {Timestamp} at Marker '{TrailMarker}': {_plantSpecies} ({status}, Health: {_healthStatus})";
+            string invasiveTag = _isInvasive ? "Invasive" : "Native";
+            return $"[BOTANICAL] {Timestamp} at '{TrailMarker}': {_plantSpecies} ({invasiveTag}, Health: {_healthStatus})";
         }
     }
 }

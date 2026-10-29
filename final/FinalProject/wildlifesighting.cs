@@ -4,7 +4,7 @@ namespace FinalProject
     {
         private string _animalSpecies;
         private int _count;
-        private string _conditionStatus; 
+        private string _conditionStatus;
 
         public WildlifeSighting(string trailMarker, string timestamp, string observerId, 
                                 string animalSpecies, int count, string conditionStatus) 
@@ -20,11 +20,10 @@ namespace FinalProject
             string speciesLower = _animalSpecies.ToLower();
             string conditionLower = _conditionStatus.ToLower();
 
-            
-            if (speciesLower.Contains("bear") || speciesLower.Contains("cougar") || 
+            if (speciesLower.Contains("bear") || speciesLower.Contains("cougar") || speciesLower.Contains("bison") ||
                 conditionLower.Contains("sick") || conditionLower.Contains("injured") || conditionLower.Contains("aggressive"))
             {
-                return 3; 
+                return 3;
             }
 
             return 1;
@@ -32,7 +31,7 @@ namespace FinalProject
 
         public override string GetSummary()
         {
-            return $"[WILDLIFE] {Timestamp} at Marker '{TrailMarker}': {_count}x {_animalSpecies} | Condition: {_conditionStatus}";
+            return $"[WILDLIFE] {Timestamp} at '{TrailMarker}': {_count}x {_animalSpecies} | Condition: {_conditionStatus}";
         }
     }
 }

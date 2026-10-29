@@ -9,12 +9,13 @@ namespace FinalProject
             Console.WriteLine("\n--- SAFETY ALERT SYSTEM CHECK ---");
             bool alertTriggered = false;
 
-            foreach (var sighting in db.GetAllSightings())
+            foreach (Sighting sighting in db.GetAllSightings())
             {
+                
                 if (sighting.EvaluateHazardLevel() >= 3)
                 {
-                    Console.WriteLine($"[ALERT WARNING] High hazard detected at Marker '{sighting.TrailMarker}'!");
-                    Console.WriteLine($" Details: {sighting.GetSummary()}");
+                    Console.WriteLine($"[ALERT WARNING] High hazard detected at '{sighting.TrailMarker}' by Ranger ID {sighting.ObserverId}!");
+                    Console.WriteLine($"  Details: {sighting.GetSummary()}");
                     alertTriggered = true;
                 }
             }

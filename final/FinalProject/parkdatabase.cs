@@ -5,7 +5,12 @@ namespace FinalProject
 {
     public class ParkDatabase
     {
-        private List<Sighting> _sightings = new List<Sighting>();
+        private List<Sighting> _sightings;
+
+        public ParkDatabase()
+        {
+            _sightings = new List<Sighting>();
+        }
 
         public void AddSighting(Sighting sighting)
         {
@@ -22,13 +27,13 @@ namespace FinalProject
             Console.WriteLine("\n--- ALL PARK OBSERVATION LOGS ---");
             if (_sightings.Count == 0)
             {
-                Console.WriteLine("No records logged yet.");
+                Console.WriteLine("No observation records logged yet.");
                 return;
             }
 
-            foreach (var sighting in _sightings)
+            foreach (Sighting s in _sightings)
             {
-                Console.WriteLine(sighting.GetSummary());
+                Console.WriteLine(s.GetSummary());
             }
         }
     }

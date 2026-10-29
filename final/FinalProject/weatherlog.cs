@@ -22,8 +22,7 @@ namespace FinalProject
 
         public override string GetSummary()
         {
-            string alertText = _hasHazard ? " (HAZARD PRESENT)" : "";
-            return $"[WEATHER] {Timestamp} at Marker '{TrailMarker}': {_condition}, {_temperatureF}°F{alertText}";
+            return $"[WEATHER] {Timestamp} at '{TrailMarker}': {_condition}, {_temperatureF}°F";
         }
     }
 }

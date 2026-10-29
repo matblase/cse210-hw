@@ -17,7 +17,7 @@ namespace FinalProject
 
         public string GetTrailInfo()
         {
-            return $"Trail: {_name} | Distance: {_distanceMiles} miles | Difficulty: {_difficulty}";
+            return $"{_name} ({_distanceMiles} miles, {_difficulty} difficulty)";
         }
     }
 }
